@@ -2,10 +2,6 @@ variable "name" {
   description = "Name of the load balancer"
 }
 
-variable "vpc_id" {
-  description = "The VPC the load balancer should attach to"
-}
-
 variable "subnet_id" {
   type        = "list"
   description = "The number of ec2 instances to run in the ECS Cluster"
@@ -28,7 +24,7 @@ variable "timeout" {
 }
 
 variable "interval" {
-  description = "Interval for the elb to check against it's instances"
+  description = "Interval for the elb to check against its instances"
 }
 
 variable "port" {

@@ -56,11 +56,6 @@ variable "aws_key_pair" {
   description = "AWS key pair to use when creating your ecs instance"
 }
 
-variable "app_port" {
-  default     = "80"
-  description = "Port to run the application off of"
-}
-
 variable "lb_health_check_path" {
   description = "Path for the health check to hit when checking for healthy instances"
 }
@@ -80,11 +75,6 @@ variable "lb_timeout" {
 
 variable "lb_interval" {
   description = "Interval at which to check the LB instances"
-}
-
-variable "app_image_version" {
-  description = "Repository version to use when provisoning the app"
-  default     = "latest"
 }
 
 variable "app_repositories" {

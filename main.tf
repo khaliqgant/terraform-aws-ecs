@@ -15,12 +15,11 @@ module "network" {
   cidrs                  = "${var.public_cidrs}"
 }
 
-module "ecs-service-elb" {
+module "elb" {
   source = "./modules/elb"
 
   name = "${var.app}-elb"
 
-  vpc_id          = "${module.network.app_vpc_id}"
   subnet_id       = "${module.network.app_subnet_id}"
   security_groups = "${module.network.app_security_groups}"
 
@@ -41,15 +40,14 @@ module "ecs-cluster" {
   instance_type = "${var.instance_type}"
   key_pair_name = "${var.aws_key_pair}"
 
-  # Reference the network module outputs
-  vpc_id          = "${module.network.app_vpc_id}"
+  # Reference the network and elb module outputs
   subnet_id       = "${module.network.app_subnet_id}"
   security_groups = "${module.network.app_security_groups}"
   elb             = "${module.ecs-service-elb.app_elb_name}"
 }
 
 # Custom ECR Image for each required
-module "ecr_repositories" {
+module "ecr-repositories" {
   source       = "./modules/ecr-repository/"
   repositories = "${var.app_repositories}"
 }
@@ -62,13 +60,10 @@ module "ecs-service" {
 
   repositories = "${var.app_repositories}"
 
-  app_image_version       = "${var.app_image_version}"
   app_images              = "${module.ecr_repositories.ecr_url}"
   app_memory_repositories = "${var.app_memory_repositories}"
   app_ports               = "${var.app_ports}"
   desired_count           = "${var.instance_number}"
-  app_port                = "${var.app_port}"
-  host_port               = "${var.lb_port}"
   container_port          = "${var.lb_port}"
   elb_name                = "${module.ecs-service-elb.app_elb_name}"
 }

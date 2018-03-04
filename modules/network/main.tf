@@ -4,6 +4,7 @@ resource "aws_vpc" "default" {
   assign_generated_ipv6_cidr_block = true
 }
 
+# https://www.terraform.io/docs/providers/aws/r/internet_gateway.html
 resource "aws_internet_gateway" "igw" {
   vpc_id = "${aws_vpc.default.id}"
 }
@@ -18,17 +19,20 @@ resource "aws_subnet" "app_subnet" {
   map_public_ip_on_launch = true
 }
 
+# https://www.terraform.io/docs/providers/aws/d/route_table.html
 resource "aws_route_table" "subnet" {
   vpc_id = "${aws_vpc.default.id}"
   count  = "${length(var.cidrs)}"
 }
 
+# https://www.terraform.io/docs/providers/aws/r/route_table_association.html
 resource "aws_route_table_association" "public-rtb" {
   subnet_id      = "${element(aws_subnet.app_subnet.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.subnet.*.id, count.index)}"
   count          = "${length(var.cidrs)}"
 }
 
+# https://www.terraform.io/docs/providers/aws/r/route.html
 resource "aws_route" "public_igw_route" {
   count                  = "${length(var.cidrs)}"
   route_table_id         = "${element(aws_route_table.subnet.*.id, count.index)}"
@@ -38,7 +42,7 @@ resource "aws_route" "public_igw_route" {
 
 # https://www.terraform.io/docs/providers/aws/d/security_group.html
 resource "aws_security_group" "default" {
-  name   = "ecs_sg"
+  name   = "${var.name}-security-group"
   vpc_id = "${aws_vpc.default.id}"
 
   # SSH access from specified users
@@ -78,7 +82,7 @@ resource "aws_security_group" "default" {
 
 # https://www.terraform.io/docs/providers/aws/d/security_group.html
 resource "aws_security_group" "elb" {
-  name = "ecs_elb_sg"
+  name = "${var.name}-security-group-elb"
 
   vpc_id = "${aws_vpc.default.id}"
 

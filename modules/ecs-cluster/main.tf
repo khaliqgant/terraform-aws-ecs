@@ -21,22 +21,24 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
   load_balancers       = ["${var.elb}"]
 
   tag {
-    key = "Name"
-    value = "${var.name}"
+    key                 = "Name"
+    value               = "${var.name}"
     propagate_at_launch = true
   }
 }
 
-# The launch configuration for each EC2 Instance that will run in the ECS
-# Cluster
+# ---------------------------------------------------------------------------------------------------------------------
+# The launch configuration for each EC2 Instance that will run in the ECS Cluster
+
 # @see https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
+# ---------------------------------------------------------------------------------------------------------------------
 resource "aws_launch_configuration" "ecs_instance" {
-  name_prefix = "${var.name}-"
-  instance_type = "${var.instance_type}"
-  key_name = "${var.key_pair_name}"
+  name_prefix          = "${var.name}-"
+  instance_type        = "${var.instance_type}"
+  key_name             = "${var.key_pair_name}"
   iam_instance_profile = "${aws_iam_instance_profile.ecs_instance.name}"
-  security_groups = ["${var.security_groups}"]
-  image_id = "${data.aws_ami.ecs.id}"
+  security_groups      = ["${var.security_groups}"]
+  image_id             = "${data.aws_ami.ecs.id}"
 
   # A shell script that will execute when on each EC2 instance when it first boots to configure the ECS Agent to talk
   # to the right ECS cluster
@@ -63,9 +65,8 @@ EOF
 # We export the IAM role ID as an output variable so users of this module can attach custom policies.
 # @see https://www.terraform.io/docs/providers/aws/d/iam_role.html
 # ---------------------------------------------------------------------------------------------------------------------
-
 resource "aws_iam_role" "ecs_instance" {
-  name = "${var.name}"
+  name               = "${var.name}"
   assume_role_policy = "${data.aws_iam_policy_document.ecs_instance.json}"
 
   # aws_iam_instance_profile.ecs_instance sets create_before_destroy to true, which means every resource it depends on,
@@ -75,8 +76,10 @@ resource "aws_iam_role" "ecs_instance" {
   }
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
 # To attach an IAM Role to an EC2 Instance, you use an IAM Instance Profile
 # @see https://www.terraform.io/docs/providers/aws/d/iam_instance_profile.html
+# ---------------------------------------------------------------------------------------------------------------------
 resource "aws_iam_instance_profile" "ecs_instance" {
   name = "${var.name}"
   role = "${aws_iam_role.ecs_instance.name}"
@@ -91,40 +94,44 @@ resource "aws_iam_instance_profile" "ecs_instance" {
 # ---------------------------------------------------------------------------------------------------------------------
 # ATTACH IAM POLICIES TO THE IAM ROLE
 # The IAM policy allows an ECS Agent running on each EC2 Instance to communicate with the ECS scheduler.
+
 # @see https://www.terraform.io/docs/providers/aws/r/iam_role_policy.html
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_iam_role_policy" "ecs_cluster_permissions" {
-  name = "ecs-cluster-permissions"
-  role = "${aws_iam_role.ecs_instance.id}"
+  name   = "ecs-cluster-permissions"
+  role   = "${aws_iam_role.ecs_instance.id}"
   policy = "${data.aws_iam_policy_document.ecs_cluster_permissions.json}"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Data Blocks
 # Define data for the resources to use
+
 # @see https://www.terraform.io/docs/configuration/data-sources.html
+# @see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/IAMPolicyExamples.html
 # ---------------------------------------------------------------------------------------------------------------------
 data "aws_iam_policy_document" "ecs_cluster_permissions" {
   statement {
-    effect = "Allow"
+    effect    = "Allow"
     resources = ["*"]
+
     actions = [
-        "ecs:CreateCluster",
-        "ecs:DeregisterContainerInstance",
-        "ecs:DiscoverPollEndpoint",
-        "ecs:Poll",
-        "ecs:RegisterContainerInstance",
-        "ecs:StartTelemetrySession",
-        "ecs:Submit*",
-        "ecs:StartTask",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:BatchGetImage",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:GetAuthorizationToken",
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "logs:DescribeLogStreams",
+      "ecs:CreateCluster",
+      "ecs:DeregisterContainerInstance",
+      "ecs:DiscoverPollEndpoint",
+      "ecs:Poll",
+      "ecs:RegisterContainerInstance",
+      "ecs:StartTelemetrySession",
+      "ecs:Submit*",
+      "ecs:StartTask",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetAuthorizationToken",
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogStreams",
     ]
   }
 }
@@ -134,19 +141,21 @@ data "aws_iam_policy_document" "ecs_cluster_permissions" {
 # https://aws.amazon.com/marketplace/pp/B00U6QTYI2
 data "aws_ami" "ecs" {
   most_recent = true
-  owners = ["amazon"]
+  owners      = ["amazon"]
+
   filter {
-    name = "name"
+    name   = "name"
     values = ["amzn-ami-*-amazon-ecs-optimized"]
   }
 }
 
 data "aws_iam_policy_document" "ecs_instance" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
+
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["ec2.amazonaws.com"]
     }
   }

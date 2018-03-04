@@ -14,10 +14,6 @@ variable "key_pair_name" {
   description = "Name of the key pair to use for each instance"
 }
 
-variable "vpc_id" {
-  description = "The ID of the VPC in which to deploy the ECS Cluster."
-}
-
 variable "subnet_id" {
   type        = "list"
   description = "The subnet IDs in which to deploy the EC2 Instances of the ECS Cluster."
