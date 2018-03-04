@@ -43,7 +43,7 @@ module "ecs-cluster" {
   # Reference the network and elb module outputs
   subnet_id       = "${module.network.app_subnet_id}"
   security_groups = "${module.network.app_security_groups}"
-  elb             = "${module.ecs-service-elb.app_elb_name}"
+  elb             = "${module.elb.app_elb_name}"
 }
 
 # Custom ECR Image for each required
@@ -60,10 +60,10 @@ module "ecs-service" {
 
   repositories = "${var.app_repositories}"
 
-  app_images              = "${module.ecr_repositories.ecr_url}"
+  app_images              = "${module.ecr-repositories.ecr_url}"
   app_memory_repositories = "${var.app_memory_repositories}"
   app_ports               = "${var.app_ports}"
   desired_count           = "${var.instance_number}"
   container_port          = "${var.lb_port}"
-  elb_name                = "${module.ecs-service-elb.app_elb_name}"
+  elb_name                = "${module.elb.app_elb_name}"
 }

@@ -1,18 +1,18 @@
-app = ""
+app = "terraform-ecs"
 
 aws_profile = ""
 
-aws_region = ""
+aws_region = "us-east-1"
 
-aws_key_pair = ""
+aws_key_pair = "foo"
 
-ssh_ips = []
+ssh_ips = ["174.125.104.63/32"]
 
-app_repositories = []
+app_repositories = ["nginx"]
 
-app_ports = []
+app_ports = [80]
 
-app_memory_repositories = []
+app_memory_repositories = [50]
 
 instance_type = "t2.micro"
 
@@ -32,4 +32,4 @@ lb_timeout = "5"
 
 lb_interval = "30"
 
-availability_zones = []
+availability_zones = ["us-east-1a"]
