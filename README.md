@@ -45,11 +45,8 @@ to be replaced and that is just a placeholder
 * [Setup a container cluster on aws with terraform part 2-provision a cluster](http://blog.shippable.com/setup-a-container-cluster-on-aws-with-terraform-part-2-provision-a-cluster)
 
 # Inspiration/References
-* [Provision ECS Cluster Terraform](https://github.com/devops-recipes/provision-ecs-cluster-terraform) - 
-"Shippable sample that demonstrates how to provision and deprovision a VPC on AWS using terraform CLI"
-* [infrastructure-as-code](https://github.com/brikis98/infrastructure-as-code-talk) - 
-"Sample code for the talk "Infrastructure-as-code: running microservices on AWS with Docker, ECS, and Terraform"
-* [koding/terraform](https://github.com/koding/terraform/blob/master/examples/aws-elb/main.tf) 
-- "ELB with stickiness Example"
+* [Provision ECS Cluster Terraform](https://github.com/devops-recipes/provision-ecs-cluster-terraform) - "Shippable sample that demonstrates how to provision and deprovision a VPC on AWS using terraform CLI"
+* [infrastructure-as-code](https://github.com/brikis98/infrastructure-as-code-talk) - "Sample code for the talk "Infrastructure-as-code: running microservices on AWS with Docker, ECS, and Terraform"
+* [koding/terraform](https://github.com/koding/terraform/blob/master/examples/aws-elb/main.tf) - "ELB with stickiness Example"
 * [arminc/terraform-ecs](https://github.com/arminc/terraform-ecs) - "AWS ECS terraform module"
 * [terraform-aws-ecs-cluster](https://github.com/infrablocks/terraform-aws-ecs-cluster) - "Terraform module for building an ECS cluster in AWS"
