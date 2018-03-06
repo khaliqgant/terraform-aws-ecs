@@ -13,6 +13,9 @@ module "network" {
   destination_cidr_block = "${var.destination_cidr_block}"
   availability_zones     = "${var.availability_zones}"
   cidrs                  = "${var.public_cidrs}"
+
+  provided_vpc_id  = "${var.provided_vpc_id}"
+  provided_subnets = "${var.provided_subnets}"
 }
 
 module "elb" {

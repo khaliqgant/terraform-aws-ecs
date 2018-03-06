@@ -31,6 +31,18 @@ terraform apply -var-file="app.tfvars"
 terraform destroy -var-file="app.tfvars"
 ```
 
+# Optional Params
+* There are some optional parameters the most notable are `provided_vpc_id` and
+`provided_subnets`. If you have an existing VPC set up and subets associated with it
+you can pass those in. Otherwise a new VPC and subnets will be created. If you have
+values for those variables set them in your custom `tfvars` file like so:
+```
+provided_vpc_id = "vpc-1a23b4cd"
+provided_subnets = ["subnet-ab1c234d", "subnet-ab1c234e", "subnet-ab1c234f"]
+```
+* Both must be provided if you want to set the variables. Otherwise the provisioning
+will fail.
+
 # Deploying
 * I would recommend using something like Jenkins to deploy. You'll want to
 authenticate to aws and ecr, publish the built images to ECR then push

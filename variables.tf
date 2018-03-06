@@ -91,3 +91,15 @@ variable "app_memory_repositories" {
     type        = "list"
     description = "The memory required for each repository"
 }
+
+# optional parameters
+variable "provided_vpc_id" {
+  description = "Supply a VPC for the cluster to join"
+  default     = ""
+}
+
+variable "provided_subnets" {
+  type        = "list"
+  description = "List of subnets for the cluster to attach to"
+  default     = []
+}

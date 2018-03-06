@@ -24,3 +24,12 @@ variable "availability_zones" {
   type        = "list"
   description = "Zones we want the network to be available in"
 }
+
+# Optional params, but both must be supplied if provided
+variable "provided_vpc_id" {
+  description = "Supply a VPC for the cluster to join"
+}
+
+variable "provided_subnets" {
+  type        = "list"
+}

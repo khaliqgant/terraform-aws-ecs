@@ -1,9 +1,9 @@
 output "app_vpc_id" {
-  value = "${aws_vpc.default.id}"
+  value = "${local.app_vpc_id}"
 }
 
 output "app_subnet_id" {
-  value = "${aws_subnet.app_subnet.*.id}"
+  value = "${local.app_subnet_id}"
 }
 
 output "app_security_groups" {
