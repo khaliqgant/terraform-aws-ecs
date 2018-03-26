@@ -92,6 +92,27 @@ resource "aws_iam_instance_profile" "ecs_instance" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
+# To create an EBS Volume
+# @see  https://www.terraform.io/docs/providers/aws/r/ebs_volume.html
+# ---------------------------------------------------------------------------------------------------------------------
+resource "aws_ebs_volume" "ecs_instance" {
+  availability_zone   = "${element(var.availability_zones, count.index)}"
+  size                = "${var.ebs_storage_size}"
+  encrypted           = "${var.ebs_encrypted}"
+  type                = "${var.ebs_type}"
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# To attach an EBS Volume
+# @see  https://www.terraform.io/docs/providers/aws/r/volume_attachment.html
+# ---------------------------------------------------------------------------------------------------------------------
+#resource "aws_volume_attachment" "ebs_volume" {
+#  device_name = "/dev/sdh"
+#  volume_id   = "${aws_ebs_volume.ecs_instance.id}"
+#  instance_id = "${data.aws_instance.ecs.id}"
+#}
+
+# ---------------------------------------------------------------------------------------------------------------------
 # ATTACH IAM POLICIES TO THE IAM ROLE
 # The IAM policy allows an ECS Agent running on each EC2 Instance to communicate with the ECS scheduler.
 
@@ -160,3 +181,10 @@ data "aws_iam_policy_document" "ecs_instance" {
     }
   }
 }
+
+#data "aws_instance" "ecs" {
+#  filter {
+#    name   = "instance-type"
+#    values = ["t2-micro"]
+#  }
+#}

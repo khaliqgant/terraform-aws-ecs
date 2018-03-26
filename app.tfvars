@@ -32,4 +32,10 @@ lb_timeout = "5"
 
 lb_interval = "30"
 
-availability_zones = ["us-east-1a"]
+availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+ebs_encrypted = "false"
+
+ebs_storage_size = "10"
+
+ebs_type = "standard"
