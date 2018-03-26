@@ -47,6 +47,12 @@ module "ecs-cluster" {
   subnet_id       = "${module.network.app_subnet_id}"
   security_groups = "${module.network.app_security_groups}"
   elb             = "${module.elb.app_elb_name}"
+
+  # Create EBS volumes for each availability zone
+  availability_zones  = "${var.availability_zones}"
+  ebs_encrypted       = "${var.ebs_encrypted}"
+  ebs_storage_size    = "${var.ebs_storage_size}"
+  ebs_type            = "${var.ebs_type}"
 }
 
 # Custom ECR Image for each required

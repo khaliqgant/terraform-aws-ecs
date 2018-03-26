@@ -92,6 +92,18 @@ resource "aws_iam_instance_profile" "ecs_instance" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
+# To attach an EBS Volume to each availability zone
+# @see  https://www.terraform.io/docs/providers/aws/r/ebs_volume.html
+# ---------------------------------------------------------------------------------------------------------------------
+resource "aws_ebs_volume" "ecs_instance" {
+    count               = "${length(var.availability_zones) > 0 ? 0 : length(var.availability_zones)}"
+    availability_zone   = "${element(var.availability_zones, count.index)}"
+    size                = "${var.ebs_storage_size}"
+    encrypted           = "${var.ebs_encrypted}"
+    type                = "${var.ebs_type}"
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
 # ATTACH IAM POLICIES TO THE IAM ROLE
 # The IAM policy allows an ECS Agent running on each EC2 Instance to communicate with the ECS scheduler.
 

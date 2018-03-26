@@ -26,3 +26,21 @@ variable "security_groups" {
 variable "elb" {
   description = "Name of the ELB the cluster should attach to"
 }
+
+
+variable "availability_zones" {
+  type        = "list"
+  description = "Zones we want the ebs to be available in"
+}
+
+variable "ebs_encrypted" {
+  description = "If true, will encrpt EBS"
+}
+
+variable "ebs_storage_size" {
+  description = "Size of drive in GiBs for EBS"
+}
+
+variable "ebs_type" {
+  description = "The type of EBS volume"
+}

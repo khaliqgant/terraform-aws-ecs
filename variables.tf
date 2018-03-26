@@ -103,3 +103,15 @@ variable "provided_subnets" {
   description = "List of subnets for the cluster to attach to"
   default     = []
 }
+
+variable "ebs_encrypted" {
+  description = "If true, will encrpt EBS"
+}
+
+variable "ebs_storage_size" {
+  description = "Size of drive in GiBs for EBS"
+}
+
+variable "ebs_type" {
+  description = "The type of EBS volume"
+}
