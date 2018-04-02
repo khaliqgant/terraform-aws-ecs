@@ -103,3 +103,8 @@ variable "provided_subnets" {
   description = "List of subnets for the cluster to attach to"
   default     = []
 }
+
+variable "volume_size" {
+  default = "8"
+  description = "Optional size of the volume created in the cluster"
+}

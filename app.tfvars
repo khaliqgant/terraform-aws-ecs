@@ -18,6 +18,8 @@ instance_type = "t2.micro"
 
 instance_number = 1
 
+volume_size = 10
+
 lb_healthy_threshold = "2"
 
 lb_unhealthy_threshold = "2"
