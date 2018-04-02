@@ -42,6 +42,7 @@ module "ecs-cluster" {
   instance_size = "${var.instance_number}"
   instance_type = "${var.instance_type}"
   key_pair_name = "${var.aws_key_pair}"
+  volume_size   = "${var.volume_size}"
 
   # Reference the network and elb module outputs
   subnet_id       = "${module.network.app_subnet_id}"

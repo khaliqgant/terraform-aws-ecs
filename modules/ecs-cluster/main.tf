@@ -40,6 +40,10 @@ resource "aws_launch_configuration" "ecs_instance" {
   security_groups      = ["${var.security_groups}"]
   image_id             = "${data.aws_ami.ecs.id}"
 
+  root_block_device {
+    volume_size = "${var.volume_size}"
+  }
+
   # A shell script that will execute when on each EC2 instance when it first boots to configure the ECS Agent to talk
   # to the right ECS cluster
   user_data = <<EOF

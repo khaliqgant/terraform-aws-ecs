@@ -26,3 +26,7 @@ variable "security_groups" {
 variable "elb" {
   description = "Name of the ELB the cluster should attach to"
 }
+
+variable "volume_size" {
+  description = "Optional size of the volume created in the cluster"
+}
