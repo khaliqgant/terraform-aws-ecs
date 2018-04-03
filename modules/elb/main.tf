@@ -1,12 +1,13 @@
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE AN ELB
-# @see https://www.terraform.io/docs/providers/aws/d/elb.html
+# @see https://www.terraform.io/docs/providers/aws/r/elb.html
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_elb" "elb" {
   name                      = "${var.name}"
   subnets                   = ["${var.subnet_id}"]
   security_groups           = ["${var.security_groups}"]
   cross_zone_load_balancing = true
+  internal                  = "${var.is_internal}"
 
   health_check {
     healthy_threshold   = "${var.healthy_threshold}"

@@ -108,3 +108,8 @@ variable "volume_size" {
   default = "8"
   description = "Optional size of the volume created in the cluster"
 }
+
+variable "lb_is_internal" {
+  default = "false"
+  description = "If the ELB is internal or not"
+}

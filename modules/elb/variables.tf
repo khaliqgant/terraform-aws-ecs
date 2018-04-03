@@ -38,3 +38,8 @@ variable "protocol" {
 variable "health_check_path" {
   description = "Path for the ELB to check for a healthy response"
 }
+
+# optional
+variable "is_internal" {
+  description = "If the ELB is internal or not"
+}

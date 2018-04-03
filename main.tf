@@ -33,6 +33,7 @@ module "elb" {
   port                = "${var.lb_port}"
   health_check_path   = "${var.lb_health_check_path}"
   protocol            = "${var.lb_protocol}"
+  is_internal         = "${var.lb_is_internal}"
 }
 
 module "ecs-cluster" {
