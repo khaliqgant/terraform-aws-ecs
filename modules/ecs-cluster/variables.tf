@@ -19,8 +19,8 @@ variable "subnet_id" {
   description = "The subnet IDs in which to deploy the EC2 Instances of the ECS Cluster."
 }
 
-variable "security_groups" {
-  description = "Security group(s) for the instances"
+variable "security_group" {
+  description = "Security group for the instances"
 }
 
 variable "elb" {

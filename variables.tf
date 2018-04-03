@@ -113,3 +113,13 @@ variable "lb_is_internal" {
   default = "false"
   description = "If the ELB is internal or not"
 }
+
+variable "instance_cidr_blocks" {
+  type    = "list"
+  default = ["0.0.0.0/0"]
+}
+
+variable "lb_cidr_blocks" {
+  type    = "list"
+  default = ["0.0.0.0/0"]
+}

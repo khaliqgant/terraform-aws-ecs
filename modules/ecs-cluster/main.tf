@@ -37,7 +37,7 @@ resource "aws_launch_configuration" "ecs_instance" {
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_pair_name}"
   iam_instance_profile = "${aws_iam_instance_profile.ecs_instance.name}"
-  security_groups      = ["${var.security_groups}"]
+  security_groups      = ["${var.security_group}"]
   image_id             = "${data.aws_ami.ecs.id}"
 
   root_block_device {

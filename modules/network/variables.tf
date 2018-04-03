@@ -33,3 +33,13 @@ variable "provided_vpc_id" {
 variable "provided_subnets" {
   type        = "list"
 }
+
+variable "instance_cidr_blocks" {
+  type        = "list"
+  description = "CIDR block for each instance"
+}
+
+variable "lb_cidr_blocks" {
+  type        = "list"
+  description = "CIDR block for load balancer access"
+}

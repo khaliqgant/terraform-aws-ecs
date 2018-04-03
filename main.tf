@@ -16,6 +16,9 @@ module "network" {
 
   provided_vpc_id  = "${var.provided_vpc_id}"
   provided_subnets = "${var.provided_subnets}"
+
+  instance_cidr_blocks = "${var.instance_cidr_blocks}"
+  lb_cidr_blocks       = "${var.lb_cidr_blocks}"
 }
 
 module "elb" {
@@ -23,8 +26,8 @@ module "elb" {
 
   name = "${var.app}-elb"
 
-  subnet_id       = "${module.network.app_subnet_id}"
-  security_groups = "${module.network.app_security_groups}"
+  subnet_id      = "${module.network.app_subnet_id}"
+  security_group = "${module.network.app_lb_security_group}"
 
   healthy_threshold   = "${var.lb_healthy_threshold}"
   unhealthy_threshold = "${var.lb_unhealthy_threshold}"
@@ -46,9 +49,9 @@ module "ecs-cluster" {
   volume_size   = "${var.volume_size}"
 
   # Reference the network and elb module outputs
-  subnet_id       = "${module.network.app_subnet_id}"
-  security_groups = "${module.network.app_security_groups}"
-  elb             = "${module.elb.app_elb_name}"
+  subnet_id      = "${module.network.app_subnet_id}"
+  security_group = "${module.network.app_instance_security_group}"
+  elb            = "${module.elb.app_elb_name}"
 }
 
 # Custom ECR Image for each required

@@ -7,8 +7,8 @@ variable "subnet_id" {
   description = "The number of ec2 instances to run in the ECS Cluster"
 }
 
-variable "security_groups" {
-  description = "Security group(s) for the instances"
+variable "security_group" {
+  description = "Security group for the ELB"
 }
 
 variable "healthy_threshold" {

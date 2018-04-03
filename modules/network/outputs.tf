@@ -6,6 +6,10 @@ output "app_subnet_id" {
   value = "${local.app_subnet_id}"
 }
 
-output "app_security_groups" {
+output "app_instance_security_group" {
   value = "${aws_security_group.default.id}"
+}
+
+output "app_lb_security_group" {
+  value = "${aws_security_group.elb.id}"
 }

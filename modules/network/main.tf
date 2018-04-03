@@ -73,17 +73,7 @@ resource "aws_security_group" "default" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "tcp"
-
-    cidr_blocks = [
-      "${var.cidr_block}",
-    ]
+    cidr_blocks = "${var.instance_cidr_blocks}"
   }
 
   # outbound internet access
@@ -106,6 +96,14 @@ resource "aws_security_group" "elb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
+    cidr_blocks = "${var.lb_cidr_blocks}"
+  }
+
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
