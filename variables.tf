@@ -109,6 +109,11 @@ variable "volume_size" {
   description = "Optional size of the volume created in the cluster"
 }
 
+variable "lb_instance_port" {
+  default     = "80"
+  description = "Port for the lb to hit when checking the instance"
+}
+
 variable "lb_is_internal" {
   default = "false"
   description = "If the ELB is internal or not"
@@ -122,4 +127,12 @@ variable "instance_cidr_blocks" {
 variable "lb_cidr_blocks" {
   type    = "list"
   default = ["0.0.0.0/0"]
+}
+
+variable "public_ip_to_instances" {
+  default = "false"
+}
+
+variable "custom_shell_command" {
+  default = ""
 }

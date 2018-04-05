@@ -31,6 +31,10 @@ variable "port" {
   description = "Port for the ELB to check"
 }
 
+variable "instance_port" {
+  description = "Port for the lb to hit when checking the instance"
+}
+
 variable "protocol" {
   description = "Protocol for the ELB to check"
 }

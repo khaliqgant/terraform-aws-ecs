@@ -30,3 +30,11 @@ variable "elb" {
 variable "volume_size" {
   description = "Optional size of the volume created in the cluster"
 }
+
+variable "public_ip_to_instances" {
+  description = "Assign public ip address to instances or not"
+}
+
+variable "custom_shell_command" {
+    description = "Additional shell commands that need to be run when starting the instance"
+}

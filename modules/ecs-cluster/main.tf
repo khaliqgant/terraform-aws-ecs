@@ -33,12 +33,13 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
 # @see https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_launch_configuration" "ecs_instance" {
-  name_prefix          = "${var.name}-"
-  instance_type        = "${var.instance_type}"
-  key_name             = "${var.key_pair_name}"
-  iam_instance_profile = "${aws_iam_instance_profile.ecs_instance.name}"
-  security_groups      = ["${var.security_group}"]
-  image_id             = "${data.aws_ami.ecs.id}"
+  name_prefix                 = "${var.name}-"
+  instance_type               = "${var.instance_type}"
+  key_name                    = "${var.key_pair_name}"
+  iam_instance_profile        = "${aws_iam_instance_profile.ecs_instance.name}"
+  security_groups             = ["${var.security_group}"]
+  image_id                    = "${data.aws_ami.ecs.id}"
+  associate_public_ip_address = "${var.public_ip_to_instances}"
 
   root_block_device {
     volume_size = "${var.volume_size}"
@@ -49,6 +50,7 @@ resource "aws_launch_configuration" "ecs_instance" {
   user_data = <<EOF
 #!/bin/bash
 echo "ECS_CLUSTER=${var.name}" >> /etc/ecs/ecs.config
+${var.custom_shell_command}
 EOF
 
   # Important note: whenever using a launch configuration with an auto scaling

@@ -34,6 +34,7 @@ module "elb" {
   timeout             = "${var.lb_timeout}"
   interval            = "${var.lb_interval}"
   port                = "${var.lb_port}"
+  instance_port       = "${var.lb_instance_port}"
   health_check_path   = "${var.lb_health_check_path}"
   protocol            = "${var.lb_protocol}"
   is_internal         = "${var.lb_is_internal}"
@@ -42,11 +43,13 @@ module "elb" {
 module "ecs-cluster" {
   source = "./modules/ecs-cluster"
 
-  name          = "${var.app}-cluster"
-  instance_size = "${var.instance_number}"
-  instance_type = "${var.instance_type}"
-  key_pair_name = "${var.aws_key_pair}"
-  volume_size   = "${var.volume_size}"
+  name                   = "${var.app}-cluster"
+  instance_size          = "${var.instance_number}"
+  instance_type          = "${var.instance_type}"
+  key_pair_name          = "${var.aws_key_pair}"
+  volume_size            = "${var.volume_size}"
+  public_ip_to_instances = "${var.public_ip_to_instances}"
+  cluster_shell_command  = "${var.custom_shell_command}"
 
   # Reference the network and elb module outputs
   subnet_id      = "${module.network.app_subnet_id}"
@@ -72,6 +75,6 @@ module "ecs-service" {
   app_memory_repositories = "${var.app_memory_repositories}"
   app_ports               = "${var.app_ports}"
   desired_count           = "${var.instance_number}"
-  container_port          = "${var.lb_port}"
+  container_port          = "${var.lb_instance_port}"
   elb_name                = "${module.elb.app_elb_name}"
 }
