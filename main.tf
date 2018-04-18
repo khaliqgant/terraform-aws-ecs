@@ -49,7 +49,7 @@ module "ecs-cluster" {
   key_pair_name          = "${var.aws_key_pair}"
   volume_size            = "${var.volume_size}"
   public_ip_to_instances = "${var.public_ip_to_instances}"
-  cluster_shell_command  = "${var.custom_shell_command}"
+  custom_shell_command   = "${var.custom_shell_command}"
 
   # Reference the network and elb module outputs
   subnet_id      = "${module.network.app_subnet_id}"
