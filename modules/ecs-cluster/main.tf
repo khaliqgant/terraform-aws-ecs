@@ -19,7 +19,7 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
   launch_configuration = "${aws_launch_configuration.ecs_instance.name}"
   vpc_zone_identifier  = ["${var.subnet_id}"]
 
-  tags = ["${concat(list(var.tags))}"]
+  tags = ["${data.null_data_source.tags.*.outputs}"]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -102,6 +102,21 @@ resource "aws_iam_role_policy" "ecs_cluster_permissions" {
   name   = "ecs-cluster-permissions"
   role   = "${aws_iam_role.ecs_instance.id}"
   policy = "${data.aws_iam_policy_document.ecs_cluster_permissions.json}"
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Create a key, value map from a regular map of tags
+
+# @see https://github.com/hashicorp/terraform/issues/16980#issuecomment-353874594
+# ---------------------------------------------------------------------------------------------------------------------
+data "null_data_source" "tags" {
+  count = "${length(keys(var.tags))}"
+
+  inputs = {
+    key                 = "${element(keys(var.tags), count.index)}"
+    value               = "${element(values(var.tags), count.index)}"
+    propagate_at_launch = true
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
