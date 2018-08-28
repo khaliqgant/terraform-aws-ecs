@@ -18,13 +18,8 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
   max_size             = "${var.instance_size}"
   launch_configuration = "${aws_launch_configuration.ecs_instance.name}"
   vpc_zone_identifier  = ["${var.subnet_id}"]
-  load_balancers       = ["${var.elb}"]
 
-  tag {
-    key                 = "Name"
-    value               = "${var.name}"
-    propagate_at_launch = true
-  }
+  tags = ["${concat(list(var.tags))}"]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

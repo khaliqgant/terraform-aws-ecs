@@ -18,26 +18,8 @@ module "network" {
   provided_subnets = "${var.provided_subnets}"
 
   instance_cidr_blocks = "${var.instance_cidr_blocks}"
-  lb_cidr_blocks       = "${var.lb_cidr_blocks}"
-}
 
-module "elb" {
-  source = "./modules/elb"
-
-  name = "${var.app}-elb"
-
-  subnet_id      = "${module.network.app_subnet_id}"
-  security_group = "${module.network.app_lb_security_group}"
-
-  healthy_threshold   = "${var.lb_healthy_threshold}"
-  unhealthy_threshold = "${var.lb_unhealthy_threshold}"
-  timeout             = "${var.lb_timeout}"
-  interval            = "${var.lb_interval}"
-  port                = "${var.lb_port}"
-  instance_port       = "${var.lb_instance_port}"
-  health_check_path   = "${var.lb_health_check_path}"
-  protocol            = "${var.lb_protocol}"
-  is_internal         = "${var.lb_is_internal}"
+  tags      = "${var.tags}"
 }
 
 module "ecs-cluster" {
@@ -54,7 +36,8 @@ module "ecs-cluster" {
   # Reference the network and elb module outputs
   subnet_id      = "${module.network.app_subnet_id}"
   security_group = "${module.network.app_instance_security_group}"
-  elb            = "${module.elb.app_elb_name}"
+
+  tags      = "${var.tags}"
 }
 
 # Custom ECR Image for each required
@@ -75,6 +58,4 @@ module "ecs-service" {
   app_memory_repositories = "${var.app_memory_repositories}"
   app_ports               = "${var.app_ports}"
   desired_count           = "${var.instance_number}"
-  container_port          = "${var.lb_instance_port}"
-  elb_name                = "${module.elb.app_elb_name}"
 }

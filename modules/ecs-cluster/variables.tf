@@ -23,10 +23,6 @@ variable "security_group" {
   description = "Security group for the instances"
 }
 
-variable "elb" {
-  description = "Name of the ELB the cluster should attach to"
-}
-
 variable "volume_size" {
   description = "Optional size of the volume created in the cluster"
 }
@@ -35,6 +31,12 @@ variable "public_ip_to_instances" {
   description = "Assign public ip address to instances or not"
 }
 
+# optional
 variable "custom_shell_command" {
     description = "Additional shell commands that need to be run when starting the instance"
+}
+
+variable "tags" {
+  type        = "map"
+  description = "Tag map that can be applied to a resource"
 }

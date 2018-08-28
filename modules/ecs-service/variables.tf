@@ -28,16 +28,8 @@ variable "app_memory_repositories" {
   type = "list"
 }
 
-variable "container_port" {
-  description = "The port the Docker container in the ECS Task is listening on."
-}
-
 variable "desired_count" {
   description = "The number of ECS Tasks to run for this ECS Service."
-}
-
-variable "elb_name" {
-  description = "The name of the ELB with which this ECS Service should register."
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
