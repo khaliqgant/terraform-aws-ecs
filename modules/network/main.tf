@@ -3,12 +3,16 @@ resource "aws_vpc" "default" {
   count                            = "${var.provided_vpc_id ==  "" ? 1 : 0}"
   cidr_block                       = "${var.cidr_block}"
   assign_generated_ipv6_cidr_block = true
+
+  tags = "${var.tags}"
 }
 
 # https://www.terraform.io/docs/providers/aws/r/internet_gateway.html
 resource "aws_internet_gateway" "igw" {
   count  = "${var.provided_vpc_id ==  "" ? 1 : 0}"
   vpc_id = "${aws_vpc.default.id}"
+
+  tags = "${var.tags}"
 }
 
 # Allow for a conditional vpc to be set
@@ -26,12 +30,16 @@ resource "aws_subnet" "app_subnet" {
   cidr_block              = "${element(var.cidrs, count.index)}"
   availability_zone       = "${element(var.availability_zones, count.index)}"
   map_public_ip_on_launch = true
+
+  tags = "${var.tags}"
 }
 
 # https://www.terraform.io/docs/providers/aws/d/route_table.html
 resource "aws_route_table" "subnet" {
   count  = "${length(var.provided_subnets) > 0 ? 0 : length(var.cidrs)}"
   vpc_id = "${local.app_vpc_id}"
+
+  tags = "${var.tags}"
 }
 
 # https://www.terraform.io/docs/providers/aws/r/route_table_association.html
@@ -70,8 +78,8 @@ resource "aws_security_group" "default" {
 
   # HTTP access from anywhere
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = "${var.http_access_port}"
+    to_port     = "${var.http_access_port}"
     protocol    = "tcp"
     cidr_blocks = "${var.instance_cidr_blocks}"
   }
@@ -83,6 +91,8 @@ resource "aws_security_group" "default" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = "${var.tags}"
 }
 
 # https://www.terraform.io/docs/providers/aws/d/security_group.html
@@ -93,8 +103,8 @@ resource "aws_security_group" "elb" {
 
   # HTTP access from anywhere
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = "${var.http_access_port}"
+    to_port     = "${var.http_access_port}"
     protocol    = "tcp"
     cidr_blocks = "${var.lb_cidr_blocks}"
   }
@@ -106,4 +116,6 @@ resource "aws_security_group" "elb" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = "${var.tags}"
 }

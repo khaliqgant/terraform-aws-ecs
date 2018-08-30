@@ -20,11 +20,7 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
   vpc_zone_identifier  = ["${var.subnet_id}"]
   load_balancers       = ["${var.elb}"]
 
-  tag {
-    key                 = "Name"
-    value               = "${var.name}"
-    propagate_at_launch = true
-  }
+  tags                 = ["${data.null_data_source.tags.*.outputs}"]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -94,6 +90,21 @@ resource "aws_iam_instance_profile" "ecs_instance" {
   # including this one, must also set the create_before_destroy flag to true, or you'll get a cyclic dependency error.
   lifecycle {
     create_before_destroy = true
+  }
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Create a key, value map from a regular map of tags
+
+# @see https://github.com/hashicorp/terraform/issues/16980#issuecomment-353874594
+# ---------------------------------------------------------------------------------------------------------------------
+data "null_data_source" "tags" {
+  count = "${length(keys(var.tags))}"
+
+  inputs = {
+    key                 = "${element(keys(var.tags), count.index)}"
+    value               = "${element(values(var.tags), count.index)}"
+    propagate_at_launch = true
   }
 }
 

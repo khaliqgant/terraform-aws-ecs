@@ -47,3 +47,8 @@ variable "health_check_path" {
 variable "is_internal" {
   description = "If the ELB is internal or not"
 }
+
+variable "tags" {
+  type        = "map"
+  description = "Tag map that can be applied to a resource"
+}

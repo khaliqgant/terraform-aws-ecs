@@ -19,6 +19,9 @@ module "network" {
 
   instance_cidr_blocks = "${var.instance_cidr_blocks}"
   lb_cidr_blocks       = "${var.lb_cidr_blocks}"
+
+  tags             = "${var.tags}"
+  http_access_port = "${var.app_http_access_port}"
 }
 
 module "elb" {
@@ -38,6 +41,8 @@ module "elb" {
   health_check_path   = "${var.lb_health_check_path}"
   protocol            = "${var.lb_protocol}"
   is_internal         = "${var.lb_is_internal}"
+
+  tags             = "${var.tags}"
 }
 
 module "ecs-cluster" {
@@ -55,6 +60,8 @@ module "ecs-cluster" {
   subnet_id      = "${module.network.app_subnet_id}"
   security_group = "${module.network.app_instance_security_group}"
   elb            = "${module.elb.app_elb_name}"
+
+  tags             = "${var.tags}"
 }
 
 # Custom ECR Image for each required

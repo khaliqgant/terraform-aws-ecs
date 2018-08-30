@@ -35,6 +35,12 @@ variable "public_ip_to_instances" {
   description = "Assign public ip address to instances or not"
 }
 
+# optional
 variable "custom_shell_command" {
     description = "Additional shell commands that need to be run when starting the instance"
+}
+
+variable "tags" {
+  type        = "map"
+  description = "Tag map that can be applied to a resource"
 }

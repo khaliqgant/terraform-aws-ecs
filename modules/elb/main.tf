@@ -24,4 +24,6 @@ resource "aws_elb" "elb" {
     lb_port           = "${var.port}"
     lb_protocol       = "${var.protocol}"
   }
+
+  tags             = "${var.tags}"
 }
