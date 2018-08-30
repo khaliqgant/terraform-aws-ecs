@@ -78,8 +78,8 @@ resource "aws_security_group" "default" {
 
   # HTTP access from anywhere
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = "${var.http_access_port}"
+    to_port     = "${var.http_access_port}"
     protocol    = "tcp"
     cidr_blocks = "${var.instance_cidr_blocks}"
   }

@@ -43,3 +43,7 @@ variable "tags" {
   type        = "map"
   description = "Tag map that can be applied to a resource"
 }
+
+variable "http_access_port" {
+  description = "Port to access the application"
+}

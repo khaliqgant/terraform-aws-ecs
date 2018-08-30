@@ -98,3 +98,8 @@ variable "tags" {
   default = {}
   description = "Tag map that can be applied to a resource"
 }
+
+variable "app_http_access_port" {
+  description = "Port to access the application"
+  default     = 80
+}

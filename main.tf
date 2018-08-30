@@ -19,7 +19,8 @@ module "network" {
 
   instance_cidr_blocks = "${var.instance_cidr_blocks}"
 
-  tags      = "${var.tags}"
+  tags             = "${var.tags}"
+  http_access_port = "${var.app_http_access_port}"
 }
 
 module "ecs-cluster" {
